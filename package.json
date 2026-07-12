@@ -1,0 +1,54 @@
+{
+  "name": "ledger-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "node src/lib/seed.js",
+    "worker": "node src/workers/index.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --forceExit",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.0",
+    "@sparticuz/chromium": "^123.0.0",
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^5.8.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.14",
+    "puppeteer-core": "^22.0.0",
+    "zod": "^3.23.8",
+    "compression": "^1.7.4",
+    "stripe": "^16.0.0",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/client-textract": "^3.600.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "prisma": "^5.16.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "setupFilesAfterFramework": [],
+    "testTimeout": 30000
+  }
+}
