@@ -1,5 +1,5 @@
-FROM node:20-alpine
-RUN apk add --no-cache openssl
+FROM node:20-bullseye-slim
+RUN apt-get update && apt-get install -y openssl
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
