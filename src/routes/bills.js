@@ -18,4 +18,17 @@ router.post('/', async (req, res) => {
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-export default router;
+router.patch('/:billId', async (req, res) => {
+  try {
+    const { vendor, amount, description, status } = req.body;
+    const bill = await prisma.bill.update({ where: { id: req.params.billId }, data: { vendor, amount: Number(amount), description, status } });
+    res.json({ success: true, data: bill });
+  } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.delete('/:billId', async (req, res) => {
+  try {
+    await prisma.bill.delete({ where: { id: req.params.billId } });
+    res.json({ success: true });
+  } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});export default router;

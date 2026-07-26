@@ -24,4 +24,22 @@ router.post('/', async (req, res) => {
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-export default router;
+router.patch('/:invoiceId', async (req, res) => {
+  try {
+    const { clientName, clientEmail, description, quantity, price } = req.body;
+    const total = Number(quantity || 1) * Number(price || 0);
+    let contact = await prisma.contact.findFirst({ where: { orgId: req.params.orgId, email: clientEmail } });
+    if (!contact && clientName) {
+      contact = await prisma.contact.create({ data: { orgId: req.params.orgId, name: clientName, email: clientEmail || '', type: 'customer' } });
+    }
+    const invoice = await prisma.invoice.update({ where: { id: req.params.invoiceId }, data: { contactId: contact?.id, subtotal: total, total, notes: description } });
+    res.json({ success: true, data: invoice });
+  } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+router.delete('/:invoiceId', async (req, res) => {
+  try {
+    await prisma.invoice.delete({ where: { id: req.params.invoiceId } });
+    res.json({ success: true });
+  } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});export default router;
