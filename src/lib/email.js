@@ -4,7 +4,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'notifications.mtledger@gmail.com',
-    pass: 'elpz begr ychr gkde'
+    pass: 'elpzbegrychrgyke'
   }
 });
 
@@ -46,3 +46,4 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, d
   };
   return transporter.sendMail(mailOptions);
 }
+
