@@ -27,18 +27,22 @@ router.post('/', async (req, res) => {
 router.patch('/:invoiceId', async (req, res) => {
   try {
     const { clientName, clientEmail, description, quantity, price, status } = req.body;
-    const total = Number(quantity || 1) * Number(price || 0);
-    let contact = await prisma.contact.findFirst({ where: { orgId: req.params.orgId, email: clientEmail } });
-    if (!contact && clientName) {
-      contact = await prisma.contact.create({ data: { orgId: req.params.orgId, name: clientName, email: clientEmail || '', type: 'customer' } });
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (price) {
+      const total = Number(quantity || 1) * Number(price || 0);
+      updateData.subtotal = total;
+      updateData.total = total;
     }
-    const { status } = req.body;
-const updateData = {};
-if (status) updateData.status = status;
-if (price) { updateData.subtotal = total; updateData.total = total; }
-if (contact?.id) updateData.contactId = contact.id;
-if (description) updateData.notes = description;
-const invoice = await prisma.invoice.update({ where: { id: req.params.invoiceId }, data: updateData });
+    if (description) updateData.notes = description;
+    if (clientName || clientEmail) {
+      let contact = await prisma.contact.findFirst({ where: { orgId: req.params.orgId, email: clientEmail } });
+      if (!contact && clientName) {
+        contact = await prisma.contact.create({ data: { orgId: req.params.orgId, name: clientName, email: clientEmail || '', type: 'customer' } });
+      }
+      if (contact?.id) updateData.contactId = contact.id;
+    }
+    const invoice = await prisma.invoice.update({ where: { id: req.params.invoiceId }, data: updateData });
     res.json({ success: true, data: invoice });
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
