@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import prisma from '../lib/prisma.js';import { sendInvoiceEmail } from '../lib/email.js';
+import prisma from '../lib/prisma.js';
+import { sendInvoiceEmail } from '../lib/email.js';
 
 const router = Router({ mergeParams: true });
 
