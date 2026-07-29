@@ -5,7 +5,7 @@ router.delete('/:invoiceId', async (req, res) => {
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-router.post('/:invoiceId/send', async (req, res) => {
+//router.post('/:invoiceId/send', async (req, res) => {
   try {
     const invoice = await prisma.invoice.findUnique({ where: { id: req.params.invoiceId }, include: { contact: true, org: true } });
     if (!invoice) return res.status(404).json({ success: false, message: 'Invoice not found' });
@@ -24,3 +24,5 @@ router.post('/:invoiceId/send', async (req, res) => {
 });
 
 export default router;
+
+
