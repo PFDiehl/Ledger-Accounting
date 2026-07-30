@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import prisma from '../lib/prisma.js';
+import prisma from '../lib/prisma.js';import { sendInvoiceEmail } from '../lib/email.js';
 
 const router = Router({ mergeParams: true });
 
@@ -58,4 +58,4 @@ router.delete('/:invoiceId', async (req, res) => {
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-export default router;
+export default router;export default router;

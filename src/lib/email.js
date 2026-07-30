@@ -1,16 +1,10 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'notifications.mtledger@gmail.com',
-    pass: 'elpzbegrychrgyke'
-  }
-});
+const resend = new Resend('re_EqdzeMay_92HM3KFySYwDYoQnnWkWPQ4W');
 
 export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, description, orgName }) {
-  const mailOptions = {
-    from: '"Mountain Top Ledger" <notifications.mtledger@gmail.com>',
+  return resend.emails.send({
+    from: 'Mountain Top Ledger <onboarding@resend.dev>',
     to,
     subject: `Invoice ${invoiceNumber} from ${orgName}`,
     html: `
@@ -43,7 +37,5 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, d
         </div>
       </div>
     `
-  };
-  return transporter.sendMail(mailOptions);
+  });
 }
-
