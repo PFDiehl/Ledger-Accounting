@@ -4,7 +4,7 @@ const resend = new Resend('re_EqdzeMay_92HM3KFySYwDYoQnnWkWPQ4W');
 
 export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, description, orgName }) {
   return resend.emails.send({
-    from: 'Mountain Top Ledger <onboarding@resend.dev>',
+    from: 'Mountain Top Ledger <notifications@mail.mountaintopledger.com>',
     to,
     subject: `Invoice ${invoiceNumber} from ${orgName}`,
     html: `
