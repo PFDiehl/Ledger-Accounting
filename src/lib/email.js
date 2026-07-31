@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend('re_EqdzeMay_92HM3KFySYwDYoQnnWkWPQ4W');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, description, orgName }) {
   return resend.emails.send({
@@ -39,3 +39,4 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, d
     `
   });
 }
+
