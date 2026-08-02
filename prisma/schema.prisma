@@ -43,7 +43,18 @@ model Organization {
   expenses   Expense[]
   bills      Bill[]
   budgets    Budget[]
-  @@map("organizations")
+  phone         String?
+  address       String?
+  city          String?
+  state         String?
+  zip           String?
+  country       String?
+  taxId         String?  @map("tax_id")
+  website       String?
+  invoiceNotes  String?  @map("invoice_notes")
+  paymentTerms  String?  @map("payment_terms")
+  invoicePrefix String?  @map("invoice_prefix")
+@@map("organizations")
 }
 
 model OrgMember {

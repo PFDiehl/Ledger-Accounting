@@ -33,6 +33,7 @@ import aiRoutes            from './routes/ai.js';
 import ecommerceRoutes     from './routes/ecommerce.js';
 import auditRoutes         from './routes/audit.js';
 import digestRoutes        from './routes/digest.js';
+import orgSettingsRoutes from './routes/orgSettings.js';
 import tenantRoutes        from './routes/tenants.js';
 
 const app  = express();
@@ -86,6 +87,7 @@ org.use('/ai',              aiRoutes);
 org.use('/ecommerce',       ecommerceRoutes);
 org.use('/audit',           auditRoutes);
 org.use('/digest',          digestRoutes);
+org.use('/settings', orgSettingsRoutes);
 
 app.use('/api/orgs/:orgId', org);
 
