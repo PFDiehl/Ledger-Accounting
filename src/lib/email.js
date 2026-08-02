@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, subtotal, taxAmount, shipping, discount, lines, notes, orgName }) {
+export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, subtotal, taxAmount, shipping, discount, lines, notes, orgName, orgEmail, orgPhone, orgAddress, orgCity, orgState, orgZip, orgWebsite }) {
   const lineRows = (lines || []).map(l => `
     <tr>
       <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;">${l.description}</td>
@@ -12,27 +12,40 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, s
     </tr>
   `).join('');
 
+  const orgDetails = [
+    orgAddress, 
+    [orgCity, orgState, orgZip].filter(Boolean).join(', '),
+    orgPhone,
+    orgEmail,
+    orgWebsite
+  ].filter(Boolean).join(' · ');
+
   return resend.emails.send({
-    from: 'Mountain Top Ledger <notifications@mail.mountaintopledger.com>',
+    from: 'Invoice <notifications@mail.mountaintopledger.com>',
     to,
     subject: `Invoice ${invoiceNumber} from ${orgName}`,
     html: `
       <div style="font-family:sans-serif;max-width:650px;margin:0 auto;padding:32px;background:#f9f9f9;">
-        <div style="background:#1a3a1a;padding:24px;border-radius:12px;text-align:center;margin-bottom:24px;">
-          <h1 style="color:#ffd166;margin:0;font-size:28px;">${orgName}</h1>
-          <p style="color:#a8d4a8;margin:8px 0 0;font-size:14px;">Built for where you are going</p>
+        
+        <!-- Company Header -->
+        <div style="background:#fff;padding:24px;border-radius:12px;margin-bottom:16px;border-left:4px solid #1a3a1a;">
+          <h1 style="color:#1a3a1a;margin:0;font-size:24px;font-weight:700;">${orgName}</h1>
+          ${orgDetails ? `<p style="color:#666;font-size:13px;margin:6px 0 0;">${orgDetails}</p>` : ''}
         </div>
+
+        <!-- Invoice Details -->
         <div style="background:#fff;padding:24px;border-radius:12px;margin-bottom:16px;">
           <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
             <div>
-              <p style="color:#333;font-size:16px;margin:0;">Dear ${clientName},</p>
-              <p style="color:#666;font-size:14px;">Please find your invoice details below.</p>
+              <p style="color:#333;font-size:16px;margin:0 0 4px;">Dear ${clientName},</p>
+              <p style="color:#666;font-size:14px;margin:0;">Please find your invoice details below.</p>
             </div>
             <div style="text-align:right;">
-              <div style="font-size:13px;color:#7A9A7A;">Invoice Number</div>
-              <div style="font-size:18px;font-weight:700;color:#1a3a1a;">${invoiceNumber}</div>
+              <div style="font-size:11px;color:#7A9A7A;text-transform:uppercase;letter-spacing:1px;">Invoice Number</div>
+              <div style="font-size:20px;font-weight:700;color:#1a3a1a;">${invoiceNumber}</div>
             </div>
           </div>
+          
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <thead>
               <tr style="background:#f5f5f5;">
@@ -44,6 +57,7 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, s
             </thead>
             <tbody>${lineRows}</tbody>
           </table>
+
           <div style="border-top:1px solid #f0f0f0;padding-top:16px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
               <span style="color:#666;font-size:14px;">Subtotal</span>
@@ -57,11 +71,14 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, s
               <span style="color:#1a3a1a;font-size:20px;font-weight:700;">$${Number(total||0).toFixed(2)}</span>
             </div>
           </div>
+
           ${notes ? `<div style="margin-top:20px;padding:12px;background:#f9f9f9;border-radius:8px;"><p style="color:#666;font-size:13px;margin:0;">${notes}</p></div>` : ''}
           <p style="color:#666;font-size:14px;margin-top:20px;">Please remit payment at your earliest convenience. Thank you for your business!</p>
         </div>
+
+        <!-- Footer -->
         <div style="text-align:center;padding:16px;">
-          <p style="color:#999;font-size:12px;">Sent via Mountain Top Ledger · mountaintopledger.com</p>
+          <p style="color:#999;font-size:11px;">Sent via <a href="https://mountaintopledger.com" style="color:#999;">Mountain Top Ledger</a> · Built for where you are going</p>
         </div>
       </div>
     `

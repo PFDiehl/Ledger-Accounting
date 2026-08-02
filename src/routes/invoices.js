@@ -140,7 +140,14 @@ router.post('/:invoiceId/send', async (req, res) => {
       discount: invoice.discount,
       lines: invoice.lines,
       notes: invoice.notes,
-      orgName: (invoice.org?.name === 'Ledger' ? 'Mountain Top Ledger' : invoice.org?.name) || 'Mountain Top Ledger'
+      orgName: invoice.org?.name || 'Your Company',
+      orgEmail: invoice.org?.email || '',
+      orgPhone: invoice.org?.phone || '',
+      orgAddress: invoice.org?.address || '',
+      orgCity: invoice.org?.city || '',
+      orgState: invoice.org?.state || '',
+      orgZip: invoice.org?.zip || '',
+      orgWebsite: invoice.org?.website || '',
     });
     await prisma.invoice.update({ where: { id: req.params.invoiceId }, data: { status: 'sent' } });
     res.json({ success: true, message: 'Invoice sent!' });
