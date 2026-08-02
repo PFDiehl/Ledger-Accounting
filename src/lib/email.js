@@ -7,8 +7,8 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, s
     <tr>
       <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;">${l.description}</td>
       <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;text-align:center;">${Number(l.quantity)}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;text-align:right;">$${Number(l.unitPrice).toFixed(2)}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;text-align:right;">$${Number(l.amount).toFixed(2)}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;text-align:right;">$${Number(l.unitPrice).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#333;font-size:14px;text-align:right;">$${Number(l.amount).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
     </tr>
   `).join('');
 
@@ -61,14 +61,14 @@ export async function sendInvoiceEmail({ to, clientName, invoiceNumber, total, s
           <div style="border-top:1px solid #f0f0f0;padding-top:16px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
               <span style="color:#666;font-size:14px;">Subtotal</span>
-              <span style="color:#333;font-size:14px;">$${Number(subtotal||0).toFixed(2)}</span>
+              <span style="color:#333;font-size:14px;">$${Number(subtotal||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
             </div>
-            ${Number(taxAmount||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Tax</span><span style="color:#333;font-size:14px;">$${Number(taxAmount).toFixed(2)}</span></div>` : ''}
-            ${Number(shipping||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Shipping</span><span style="color:#333;font-size:14px;">$${Number(shipping).toFixed(2)}</span></div>` : ''}
-            ${Number(discount||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Discount</span><span style="color:#c0392b;font-size:14px;">-$${Number(discount).toFixed(2)}</span></div>` : ''}
+            ${Number(taxAmount||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Tax</span><span style="color:#333;font-size:14px;">$${Number(taxAmount).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>` : ''}
+            ${Number(shipping||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Shipping</span><span style="color:#333;font-size:14px;">$${Number(shipping).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>` : ''}
+            ${Number(discount||0) > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#666;font-size:14px;">Discount</span><span style="color:#c0392b;font-size:14px;">-$${Number(discount).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>` : ''}
             <div style="display:flex;justify-content:space-between;padding-top:12px;border-top:2px solid #1a3a1a;margin-top:8px;">
               <span style="color:#1a3a1a;font-size:16px;font-weight:700;">Amount Due</span>
-              <span style="color:#1a3a1a;font-size:20px;font-weight:700;">$${Number(total||0).toFixed(2)}</span>
+              <span style="color:#1a3a1a;font-size:20px;font-weight:700;">$${Number(total||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
             </div>
           </div>
 
