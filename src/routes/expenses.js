@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import prisma from '../lib/prisma.js';
-
 const router = Router({ mergeParams: true });
 
 router.get('/', async (req, res) => {
@@ -12,16 +11,38 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { vendor, category, amount, date, description } = req.body;
-    const expense = await prisma.expense.create({ data: { orgId: req.params.orgId, vendor, category: category||'Other', amount: Number(amount), date: date ? new Date(date) : new Date(), description } });
+    const { vendor, category, amount, date, description, receiptNumber, paymentMethod } = req.body;
+    const expense = await prisma.expense.create({
+      data: {
+        orgId: req.params.orgId,
+        vendor,
+        category: category||'Other',
+        amount: Number(amount),
+        date: date ? new Date(date) : new Date(),
+        description,
+        receiptNumber,
+        paymentMethod
+      }
+    });
     res.json({ success: true, data: expense });
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
 router.patch('/:expenseId', async (req, res) => {
   try {
-    const { vendor, category, amount, description } = req.body;
-    const expense = await prisma.expense.update({ where: { id: req.params.expenseId }, data: { vendor, category: category||'Other', amount: Number(amount), description } });
+    const { vendor, category, amount, date, description, receiptNumber, paymentMethod } = req.body;
+    const expense = await prisma.expense.update({
+      where: { id: req.params.expenseId },
+      data: {
+        vendor,
+        category: category||'Other',
+        amount: Number(amount),
+        date: date ? new Date(date) : undefined,
+        description,
+        receiptNumber,
+        paymentMethod
+      }
+    });
     res.json({ success: true, data: expense });
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
@@ -31,4 +52,6 @@ router.delete('/:expenseId', async (req, res) => {
     await prisma.expense.delete({ where: { id: req.params.expenseId } });
     res.json({ success: true });
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
-});export default router;
+});
+
+export default router;

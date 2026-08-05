@@ -185,6 +185,8 @@ model Expense {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   org         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  receiptNumber String?  @map("receipt_number")
+  paymentMethod String?  @map("payment_method")
   @@map("expenses")
 }
 
