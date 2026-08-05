@@ -27,7 +27,7 @@ router.get('/:invoiceId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { clientName, clientEmail, poNumber, notes, taxRate, shipping, discount, dueDate, lines } = req.body;
+    const { clientName, clientEmail, poNumber, notes, taxRate, shipping, discount, dueDate, lines, salesperson, shipToName, shipToAddress, currency } = req.body;
     let contact = await prisma.contact.findFirst({ where: { orgId: req.params.orgId, email: clientEmail } });
     if (!contact) {
       contact = await prisma.contact.create({ data: { orgId: req.params.orgId, name: clientName, email: clientEmail || '', type: 'customer' } });
@@ -72,11 +72,14 @@ router.post('/', async (req, res) => {
 
 router.patch('/:invoiceId', async (req, res) => {
   try {
-    const { clientName, clientEmail, poNumber, notes, taxRate, shipping, discount, dueDate, lines, status } = req.body;
+    const { clientName, clientEmail, poNumber, salesperson, shipToName, shipToAddress, currency, notes, taxRate, shipping, discount, dueDate, lines, status } = req.body;
     const updateData = {};
     if (status) updateData.status = status;
     if (notes !== undefined) updateData.notes = notes;
-    if (poNumber !== undefined) updateData.poNumber = poNumber;
+    if (poNumber !== undefined) updateData.poNumber = poNumber;if (salesperson !== undefined) updateData.salesperson = salesperson;
+    if (shipToName !== undefined) updateData.shipToName = shipToName;
+    if (shipToAddress !== undefined) updateData.shipToAddress = shipToAddress;
+    if (currency !== undefined) updateData.currency = currency;
     if (dueDate) updateData.dueDate = new Date(dueDate);
     if (lines) {
       const subtotal = lines.reduce((s, l) => s + (Number(l.quantity) * Number(l.unitPrice)), 0);
