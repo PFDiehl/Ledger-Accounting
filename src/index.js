@@ -34,6 +34,7 @@ import ecommerceRoutes     from './routes/ecommerce.js';
 import auditRoutes         from './routes/audit.js';
 import digestRoutes        from './routes/digest.js';
 import orgSettingsRoutes from './routes/orgSettings.js';
+import receiptRoutes from './routes/receipts.js';
 import tenantRoutes        from './routes/tenants.js';
 
 const app  = express();
@@ -68,6 +69,7 @@ org.use(orgRateLimit({ max:300 }));
 org.use(queryGuard);
 
 org.use('/contacts',        contactRoutes);
+org.use('/receipts',        receiptRoutes);
 org.use('/invoices',        invoiceRoutes);
 org.use('/bills',           billRoutes);
 org.use('/expenses',        expenseRoutes);
@@ -99,4 +101,6 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 export default app;
+
+
 
