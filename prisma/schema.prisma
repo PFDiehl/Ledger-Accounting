@@ -187,6 +187,7 @@ model Expense {
   org         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   receiptNumber String?  @map("receipt_number")
   paymentMethod String?  @map("payment_method")
+  receiptUrl    String?  @map("receipt_url")
   @@map("expenses")
 }
 
