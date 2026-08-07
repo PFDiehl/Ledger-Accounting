@@ -35,7 +35,6 @@ import auditRoutes         from './routes/audit.js';
 import digestRoutes        from './routes/digest.js';
 import orgSettingsRoutes from './routes/orgSettings.js';
 import receiptRoutes from './routes/receipts.js';
-import receiptUploadRoutes from './routes/receiptUpload.js';
 import tenantRoutes        from './routes/tenants.js';
 
 const app  = express();
@@ -71,7 +70,6 @@ org.use(queryGuard);
 
 org.use('/contacts',        contactRoutes);
 org.use('/receipts',        receiptRoutes);
-org.use('/expenses',        receiptUploadRoutes);
 org.use('/invoices',        invoiceRoutes);
 org.use('/bills',           billRoutes);
 org.use('/expenses',        expenseRoutes);
