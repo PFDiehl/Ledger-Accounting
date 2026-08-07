@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
         vendor,
         category: category||'Other',
         amount: Number(amount),
-        date: date ? new Date(date) : new Date(),
+        date: date && !isNaN(new Date(date)) ? new Date(date) : new Date(),
         description,
         receiptNumber,
         paymentMethod
@@ -37,7 +37,7 @@ router.patch('/:expenseId', async (req, res) => {
         vendor,
         category: category||'Other',
         amount: Number(amount),
-        date: date ? new Date(date) : undefined,
+        date: date && !isNaN(new Date(date)) ? new Date(date) : undefined,
         description,
         receiptNumber,
         paymentMethod
