@@ -74,4 +74,10 @@ router.delete('/:expenseId/receipt', async (req, res) => {
   } catch(e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-export default router;
+router.post('/:expenseId/receipt/url', async (req, res) => {
+  try {
+    const { receiptUrl } = req.body;
+    const expense = await prisma.expense.update({ where: { id: req.params.expenseId }, data: { receiptUrl } });
+    res.json({ success: true, expense });
+  } catch(e) { res.status(500).json({ success: false, message: e.message }); }
+});export default router;
